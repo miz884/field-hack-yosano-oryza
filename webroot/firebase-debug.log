@@ -1,0 +1,28 @@
+[debug] [2017-06-26T13:14:00.757Z] ----------------------------------------------------------------------
+[debug] [2017-06-26T13:14:00.762Z] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-06-26T13:14:00.762Z] CLI Version:  3.9.1
+[debug] [2017-06-26T13:14:00.762Z] Platform:     darwin
+[debug] [2017-06-26T13:14:00.762Z] Node Version: v6.9.1
+[debug] [2017-06-26T13:14:00.763Z] Time:         Mon Jun 26 2017 22:14:00 GMT+0900 (JST)
+[debug] [2017-06-26T13:14:00.763Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-06-26T13:14:00.788Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-06-26T13:14:00.788Z] > authorizing via signed-in user
+[debug] [2017-06-26T13:14:00.792Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/field-hack-yosano-oryza-1ec51  
+ Mon Jun 26 2017 22:14:00 GMT+0900 (JST)
+[debug] [2017-06-26T13:14:01.679Z] <<< HTTP RESPONSE 200
+[debug] [2017-06-26T13:14:01.681Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/field-hack-yosano-oryza-1ec51/tokens  
+ Mon Jun 26 2017 22:14:01 GMT+0900 (JST)
+[debug] [2017-06-26T13:14:02.583Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/miz/dev/field-hack-yosano-oryza'...
+[info] 
+[debug] [2017-06-26T13:14:02.587Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/field-hack-yosano-oryza-1ec51  
+ Mon Jun 26 2017 22:14:02 GMT+0900 (JST)
+[debug] [2017-06-26T13:14:03.532Z] <<< HTTP RESPONSE 200
+[debug] [2017-06-26T13:14:03.533Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/561290770409/clients/_:getWebAppConfig  
+ Mon Jun 26 2017 22:14:03 GMT+0900 (JST)
+[debug] [2017-06-26T13:14:04.547Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: webroot
+[info] ✔  hosting: Local server: http://localhost:5000
+
