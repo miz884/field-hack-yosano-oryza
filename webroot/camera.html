@@ -2,34 +2,9 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="googlebot" content="noindex, nofollow">
-
-  
-  
-
-  
-  
-  
-
-  
-
   <script type="text/javascript" src="//code.jquery.com/jquery-git.js"></script>
-
-  
-
-  
-
-  
-
-  
-    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
-  
-
-  
-
   <style type="text/css">
-    #video {
+#video {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
   width:320px;
@@ -82,13 +57,16 @@
 
   <title></title>
 
-  
-    
-
-
-
-
 <script type='text/javascript'>//<![CDATA[
+
+var VISION_API_URL = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDrUmPwxmxyWknL8LU51wEZvVUKh9x2SbE";
+var PING_MAP = {
+  "face": "https://maker.ifttt.com/trigger/mamekko_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
+  "finger": "https://maker.ifttt.com/trigger/mamekko_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
+  "alcohol": "https://maker.ifttt.com/trigger/sake_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
+  "bottle": "https://maker.ifttt.com/trigger/sake_touch/with/key/d1fg_DKehtlzbjJ0U71DXa"
+};
+
 $(window).on('load', function() {
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
@@ -220,7 +198,7 @@ $(window).on('load', function() {
     };
     $.ajax({
       type: "POST",
-      url: 'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDrUmPwxmxyWknL8LU51wEZvVUKh9x2SbE',
+      url: VISION_API_URL,
       data: JSON.stringify(request),
       contentType: 'application/json',
       success: function(data, text) {
@@ -237,7 +215,20 @@ $(window).on('load', function() {
         }
         var ui = document.getElementById('result');
         ui.innerText = labels.join(", ");
+	//
+	$.each(PING_MAP, function(key, value) {
+	  if (labels.indexOf(key) >= 0) {
+	    pingUrl(value);
+	  }
+        });
       },
+    });
+  }
+
+  function pingUrl(url) {
+    $.ajax({
+      type: "GET",
+      url: url
     });
   }
 
@@ -261,8 +252,8 @@ $(window).on('load', function() {
   <div class="output">
     <img id="photo" alt="The screen capture will appear in this box."> 
   </div>
-  <ul id="result">
-  </ul>
+  <div id="result">
+  </div>
   
   <script>
   // tell the embed parent frame the height of the content
