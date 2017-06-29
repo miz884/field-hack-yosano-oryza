@@ -1,0 +1,14 @@
+var CAMERA_KEYWORD_MAP = {
+"bottole": "yosamusume",
+"alcohol": "yosamusume",
+"finger": "mamekko_plant",
+"face": "mamekko_plant",
+"vegetable": "farmers_store",
+"vegetable": "food_processing_plant",
+"aquarium": "water_source",
+"freshwater": "water_source",
+"vegetation": "yosamusume_rice_paddy",
+"leaf": "yosamusume_rice_paddy",
+"manufacturing": "food_processing_plant",
+"machine tool": "food_processing_plant",
+};
