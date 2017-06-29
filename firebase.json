@@ -3,6 +3,17 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "webroot"
+    "public": "webroot",
+    "redirects": [
+      {
+        "source" : "/redirect/yosamusume/dai-ginjo",
+        "destination" : "http://www.yosano.or.jp/yosamusume/5.html",
+      "type" : 301
+      }, {
+        "source" : "/redirect/yosamusume/ginjo",
+        "destination" : "http://www.yosano.or.jp/yosamusume/8.html",
+        "type" : 301
+      }
+    ]
   }
 }
