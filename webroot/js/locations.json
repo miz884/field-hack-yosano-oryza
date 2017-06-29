@@ -1,0 +1,12 @@
+var LOCATIONS = {
+"yosamusume": {name:"与謝娘酒造", lat:35.4764672, lng:135.0866538, url:"http://www.yosano.or.jp/yosamusume/", desc:"与謝野町で日本酒を作っています。"},
+"yosamusume_rice_paddy": {name:"与謝娘酒造の水田", lat:35.47557, lng:135.090478, url:"", desc:""},
+"farmers_store": {name:"野菜直売所", lat:35.4815585, lng:135.0936255, url:"", desc:""},
+"rice_mill": {name:"米集荷加工場", lat:35.46013, lng:135.0791909, url:"", desc:""},
+"water_source": {name:"水源", lat:35.4461956, lng:135.0909292, url:"", desc:""},
+"mamekko_plant": {name:"京の豆っ子生産工場", lat:35.5098469, lng:135.076121, url:"http://www.town-yosano.jp/wwwg/info/detail.jsp?common_id=3687", desc:"有機質肥料「京の豆っこ」を作っています。"},
+"food_processing_plant": {name:"農作物加工工場", lat:35.4830474, lng:135.1030135, url:"", desc:""},
+"apple_farm": {name:"アップルファーム", lat:35.483778, lng:135.093089, url:"", desc:""},
+"kyo_tofu": {name:"京とうふ加悦の里", lat:35.5055284, lng:135.0895202, url:"", desc:""},
+"takenaka_can": {name:"竹中缶詰", lat:35.5620742, lng:135.242815, url:"", desc:""}
+};
