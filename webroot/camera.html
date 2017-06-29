@@ -57,15 +57,11 @@
 
   <title></title>
 
+<script src="/js/camera_keywords.json"></script>
+
 <script type='text/javascript'>//<![CDATA[
 
 var VISION_API_URL = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDrUmPwxmxyWknL8LU51wEZvVUKh9x2SbE";
-var PING_MAP = {
-  "face": "https://maker.ifttt.com/trigger/mamekko_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
-  "finger": "https://maker.ifttt.com/trigger/mamekko_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
-  "alcohol": "https://maker.ifttt.com/trigger/sake_touch/with/key/d1fg_DKehtlzbjJ0U71DXa",
-  "bottle": "https://maker.ifttt.com/trigger/sake_touch/with/key/d1fg_DKehtlzbjJ0U71DXa"
-};
 
 $(window).on('load', function() {
   // The width and height of the captured photo. We will set the
@@ -216,19 +212,19 @@ $(window).on('load', function() {
         var ui = document.getElementById('result');
         ui.innerText = labels.join(", ");
 	//
-	$.each(PING_MAP, function(key, value) {
+	$.each(CAMERA_KEYWORD_MAP, function(key, value) {
 	  if (labels.indexOf(key) >= 0) {
-	    pingUrl(value);
+	    pingLabel(value);
 	  }
         });
       },
     });
   }
 
-  function pingUrl(url) {
+  function pingLabel(label) {
     $.ajax({
       type: "GET",
-      url: url
+      url: "/ping/" + label
     });
   }
 
