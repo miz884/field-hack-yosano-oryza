@@ -89,6 +89,23 @@ function initMap() {
       }
     }
   });
+
+  Object.entries(LOCATIONS).forEach(function(location) {
+    var infowindow = new google.maps.InfoWindow({
+      content: location[1].name
+    });
+    var marker = new google.maps.Marker({
+      map: map,
+      position: {lat: location[1].lat, lng: location[1].lng},
+      title: location[1].name
+    });
+    marker.addListener('mouseover', function() {
+      infowindow.open(map, marker);
+    });
+    marker.addListener('mouseout', function() {
+      infowindow.close();
+    });
+  });
 }
 
 var map;
@@ -105,7 +122,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
       // ///////////////////////////////////////
       // Field Hack YOSANO.
       var route = response.routes[0];
-      var marker = new StepMarker(map, route, 300);
+      var marker = new StepMarker(map, route, 60);
       var path = new google.maps.Polyline({
         path: route.overview_path,
         geodesic: true,

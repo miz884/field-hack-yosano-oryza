@@ -60,7 +60,7 @@ StepMarker.prototype.clear = function() {
 
 function Animator(interval) {
   this.markers = [];
-  this.interval = interval || 10;
+  this.interval = interval || 50;
   this.interval_id = null;
 };
 
