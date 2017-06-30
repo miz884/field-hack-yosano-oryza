@@ -1,8 +1,11 @@
-function StepMarker(map, route, num_steps) {
+function StepMarker(map, route, num_steps, icon) {
   this.map = map;
   this.steps = [];
   this.curr_index = 0;
-  this.marker = new google.maps.Marker();
+  this.icon = (icon ? icon : "http://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png");
+  this.marker = new google.maps.Marker({
+    icon: this.icon
+  });
 
   var points = [];
   for (var leg_i = 0; leg_i < route.legs.length; ++leg_i) {
@@ -60,7 +63,7 @@ StepMarker.prototype.clear = function() {
 
 function Animator(interval) {
   this.markers = [];
-  this.interval = interval || 10;
+  this.interval = interval || 50;
   this.interval_id = null;
 };
 
