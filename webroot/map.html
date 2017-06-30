@@ -3,6 +3,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <script type="text/javascript" src="//code.jquery.com/jquery-git.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+  <link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 
   <style type="text/css">
 /* Always set the map height explicitly to define the size of the div
@@ -28,6 +33,14 @@ html, body {
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
+}
+
+#location_desc_dialog {
+  max-width: 400px;
+}
+
+#location_desc_dialog img{
+  float: right;
 }
   </style>
 
@@ -105,6 +118,18 @@ function initMap() {
     marker.addListener('mouseout', function() {
       infowindow.close();
     });
+    marker.addListener('click', function() {
+      var dialog = document.getElementById('location_desc_dialog');
+      var content = document.getElementById('location_desc_content');
+      content.innerHTML = "<h2>"
+        + (location[1].url ? "<a href='" + location[1].url + "'>" : "")
+        + location[1].name
+        + (location[1].url ? "</a>" : "")
+        + "</h2><div>"
+        + location[1].desc
+        + "</div>";
+      dialog.open();
+    });
   });
 }
 
@@ -138,6 +163,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     }
   });
 }
+
 //]]> 
 
 </script>
@@ -151,8 +177,9 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 <b>End: </b>
 <select id="end"> </select>
 </div>
+
 <div id="map"></div>
-<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
 <script>
   // Initialize Firebase
   var config = {
@@ -178,6 +205,10 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     }], "*")
   }
 </script>
+
+<paper-dialog id="location_desc_dialog" with-backdrop>
+  <paper-dialog-scrollable id="location_desc_content"></paper-dialog-scrollable>
+</paper-dialog>
 
 </body>
 

@@ -1,0 +1,14 @@
+{
+  "name": "field-hack-yosano-oryza",
+  "version": "0.1.0",
+  "dependencies": {
+    "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^2.0.0",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
+    "neon-animation": "PolymerElements/neon-animation#^2.0.0"
+  },
+  "resolutions": {
+    "iron-doc-viewer": "1 - 2"
+  }
+}
