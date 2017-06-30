@@ -6,13 +6,23 @@
     "public": "webroot",
     "redirects": [
       {
-        "source" : "/redirect/yosamusume/dai-ginjo",
-        "destination" : "http://www.yosano.or.jp/yosamusume/5.html",
+        "source" : "/redirect/yosamusume/hinemosu",
+        "destination" : "http://yosamusume.shop-pro.jp/#hinemosu",
         "type" : 301
       },
       {
-        "source" : "/redirect/yosamusume/ginjo",
-        "destination" : "http://www.yosano.or.jp/yosamusume/8.html",
+        "source" : "/redirect/yosamusume/tasogare",
+        "destination" : "http://yosamusume.shop-pro.jp/#tasogare",
+        "type" : 301
+      },
+      {
+        "source" : "/redirect/yosamusume/sayo",
+        "destination" : "http://yosamusume.shop-pro.jp/#sayo",
+        "type" : 301
+      },
+      {
+        "source" : "/redirect/yosamusume/akatsukiyami",
+        "destination" : "http://yosamusume.shop-pro.jp/#akatsukiyami",
         "type" : 301
       },
       {"source": "/ping/yosamusume", "destination": "https://maker.ifttt.com/trigger/yosamusume/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
