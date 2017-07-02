@@ -86,6 +86,10 @@ function initMap() {
     console.log("pinged:");
     console.log(val);
     if (val && val.label) {
+      var option = document.getElementById(val.label);
+      if (option) {
+        option.selected = true;
+      }
       var location = LOCATIONS[val.label];
       if (location) {
         directionsManager.showInOut(location);
