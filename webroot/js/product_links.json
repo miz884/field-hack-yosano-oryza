@@ -1,0 +1,14 @@
+var PRODUCT_LINKS = [
+  {"source":"yosamusume_rice_paddy", "destination":"yosamusume", "product":"rice_plant"},
+  {"source":"yosamusume_rice_paddy", "destination":"rice_mill", "product":"rice_plant"},
+  {"source":"water_source", "destination":"yosamusume", "product":"water"},
+  {"source":"rice_mill", "destination":"mamekko_plant", "product":"rice_bran"},
+  {"source":"kyo_tofu", "destination":"mamekko_plant", "product":"soy_pulp"},
+  {"source":"takenaka_can", "destination":"mamekko_plant", "product":"sarine_guts"},
+  {"source":"mamekko_plant", "destination":"yosamusume_rice_paddy", "product":"mamekko"},
+  {"source":"mamekko_plant", "destination":"apple_farm", "product":"mamekko"},
+  {"source":"apple_farm", "destination":"farmers_store", "product":"vegitable"},
+  {"source":"apple_farm", "destination":"yosamusume", "product":"apple"},
+  {"source":"apple_farm", "destination":"food_processing_plant", "product":"vegitable"},
+  {"source":"food_processing_plant", "destination":"farmers_store", "product":"jam"}
+];

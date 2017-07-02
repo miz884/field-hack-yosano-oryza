@@ -74,7 +74,6 @@ Animator.prototype.start = function() {
       instance.next();
     }
   }(this), this.interval);
-  console.log(this.markers);
 };
 
 Animator.prototype.stop = function() {
@@ -93,14 +92,94 @@ Animator.prototype.clear = function() {
   this.markers.forEach(function(marker) {
     marker.clear();
   });
-};
-
-Animator.prototype.reset = function() {
-  this.clear();
   this.markers = [];
 };
 
 Animator.prototype.addMarker = function(marker) {
   this.markers.push(marker);
 };
+
+function DirectionsManager(map) {
+  this.map = map;
+  this.directions_service = new google.maps.DirectionsService();
+  this.routes = [];
+  this.animator = new Animator();
+  this.animator.start();
+};
+
+DirectionsManager.prototype.showRoute = function(origin, destination, icon, line_color) {
+  var me = this;
+  this.directions_service.route({
+    origin: origin,
+    destination: destination,
+    travelMode: 'DRIVING'
+  }, function() {
+    return function(response, status) {
+      if (status === 'OK') {
+        var route = response.routes[0];
+        var path = new google.maps.Polyline({
+          path: route.overview_path,
+          geodesic: true,
+          strokeColor: (line_color ? line_color : '#FF0000'),
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        path.setMap(me.map);
+        me.routes.push(path);
+        var marker = new StepMarker(map, route, 60, icon);
+        me.animator.addMarker(marker);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    }
+  }());
+};
+
+DirectionsManager.prototype.clear = function() {
+  this.routes.forEach(function(path) {
+    path.setMap(null);
+  });
+  this.routes = [];
+  this.animator.clear();
+  this.animator.start();
+};
+
+DirectionsManager.prototype.showIncoming = function(location) {
+  if (! location.incoming) {
+    return;
+  }
+  var me = this;
+  location.incoming.forEach(function(link) {
+    var source_location = LOCATIONS[link.source];
+    me.showRoute(
+      {lat: source_location.lat, lng: source_location.lng},
+      {lat: location.lat, lng: location.lng},
+      "http://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png",
+      "#00FF00"
+    );
+  });
+};
+
+DirectionsManager.prototype.showOutgoing = function(location) {
+  if (! location.outgoing) {
+    return;
+  }
+  var me = this;
+  location.outgoing.forEach(function(link) {
+    var dest_location = LOCATIONS[link.destination];
+    me.showRoute(
+      {lat: location.lat, lng: location.lng},
+      {lat: dest_location.lat, lng: dest_location.lng},
+      "http://maps.google.com/mapfiles/kml/paddle/ylw-square-lv.png",
+      "#FFFF00"
+    );
+  });
+};
+
+DirectionsManager.prototype.showInOut = function(location) {
+  var loc = (LOCATIONS[location] ? LOCATIONS[location] : location);
+  this.clear();
+  this.showIncoming(loc);
+  this.showOutgoing(loc);
+}
 
