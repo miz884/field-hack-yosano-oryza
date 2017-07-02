@@ -39,8 +39,13 @@ html, body {
   max-width: 400px;
 }
 
+
 #location_desc_dialog img{
   float: right;
+}
+
+#location_desc_dialog div {
+  margin-bottom: 15px;
 }
   </style>
 
@@ -115,13 +120,7 @@ function initMap() {
     marker.addListener('click', function() {
       var dialog = document.getElementById('location_desc_dialog');
       var content = document.getElementById('location_desc_content');
-      content.innerHTML = "<h2>"
-        + (location[1].url ? "<a href='" + location[1].url + "'>" : "")
-        + location[1].name
-        + (location[1].url ? "</a>" : "")
-        + "</h2><div>"
-        + location[1].desc
-        + "</div>";
+      content.innerHTML = formatLocation(location[1]);
       dialog.open();
     });
   });
