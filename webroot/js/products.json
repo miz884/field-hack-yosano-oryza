@@ -1,0 +1,16 @@
+var PRODUCTS = {
+"sake" : {"name":"日本酒", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"vegitable" : {"name":"野菜", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"jam" : {"name":"ジャム", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"rice" : {"name":"白米", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"apple" : {"name":"りんご", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"tofu" : {"name":"とうふ", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"oil_sardine" : {"name":"オイルサーディン", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+
+"rice_plant" : {"name":"稲", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"water" : {"name":"水", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"rice_bran" : {"name":"米ぬか", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"soy_pulp" : {"name":"おから", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"sarine_guts" : {"name":"イワシのアラ", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"},
+"mamekko" : {"name":"肥料", "icon":"https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png"}
+};
