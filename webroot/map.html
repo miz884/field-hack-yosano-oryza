@@ -53,6 +53,7 @@ html, body {
 
 <script src="/js/locations.json"></script>
 <script src="/js/product_links.json"></script>
+<script src="/js/products.json"></script>
 
 <script src="/js/map_classes.js"></script>
 <script src="/js/misc.js"></script>
@@ -109,7 +110,8 @@ function initMap() {
     var marker = new google.maps.Marker({
       map: map,
       position: {lat: location[1].lat, lng: location[1].lng},
-      title: location[1].name
+      title: location[1].name,
+      icon: location[1].icon
     });
     marker.addListener('mouseover', function() {
       infowindow.open(map, marker);

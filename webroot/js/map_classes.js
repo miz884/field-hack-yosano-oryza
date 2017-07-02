@@ -2,7 +2,7 @@ function StepMarker(map, route, num_steps, icon) {
   this.map = map;
   this.steps = [];
   this.curr_index = 0;
-  this.icon = (icon ? icon : "http://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png");
+  this.icon = (icon ? icon : "https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png");
   this.marker = new google.maps.Marker({
     icon: this.icon
   });
@@ -154,7 +154,7 @@ DirectionsManager.prototype.showIncoming = function(location) {
     me.showRoute(
       {lat: source_location.lat, lng: source_location.lng},
       {lat: location.lat, lng: location.lng},
-      "http://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png",
+      PRODUCTS[link.product].icon,
       "#00FF00"
     );
   });
@@ -170,7 +170,7 @@ DirectionsManager.prototype.showOutgoing = function(location) {
     me.showRoute(
       {lat: location.lat, lng: location.lng},
       {lat: dest_location.lat, lng: dest_location.lng},
-      "http://maps.google.com/mapfiles/kml/paddle/ylw-square-lv.png",
+      PRODUCTS[link.product].icon,
       "#FFFF00"
     );
   });
