@@ -107,7 +107,7 @@ function DirectionsManager(map) {
   this.animator.start();
 };
 
-DirectionsManager.prototype.showRoute = function(origin, destination, icon, line_color) {
+DirectionsManager.prototype.showRoute = function(origin, destination, label, icon, line_color) {
   var me = this;
   this.directions_service.route({
     origin: origin,
@@ -126,8 +126,24 @@ DirectionsManager.prototype.showRoute = function(origin, destination, icon, line
         });
         path.setMap(me.map);
         me.routes.push(path);
-        var marker = new StepMarker(map, route, 60, icon);
-        me.animator.addMarker(marker);
+        for (var i = 0; i < 60; i += 10) {
+          var marker = new StepMarker(map, route, 60, icon);
+          marker.curr_index = i;
+          me.animator.addMarker(marker);
+        }
+        var infowindow = new google.maps.InfoWindow({
+          content: label
+        });
+        path.addListener("mouseover", function(mouse) {
+          infowindow.open(map);
+          infowindow.setPosition(mouse.latLng);
+        });
+        path.addListener("mousemove", function(mouse) {
+          infowindow.setPosition(mouse.latLng);
+        });
+        path.addListener("mouseout", function() {
+          infowindow.close();
+        });
       } else {
         window.alert('Directions request failed due to ' + status);
       }
@@ -154,6 +170,7 @@ DirectionsManager.prototype.showIncoming = function(loc) {
     me.showRoute(
       {lat: source_location.lat, lng: source_location.lng},
       {lat: loc.lat, lng: loc.lng},
+      formatLink(link),
       PRODUCTS[link.product].icon,
       "#00FF00"
     );
@@ -170,6 +187,7 @@ DirectionsManager.prototype.showOutgoing = function(loc) {
     me.showRoute(
       {lat: loc.lat, lng: loc.lng},
       {lat: dest_location.lat, lng: dest_location.lng},
+      formatLink(link),
       PRODUCTS[link.product].icon,
       "#FFFF00"
     );
