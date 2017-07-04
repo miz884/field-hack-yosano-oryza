@@ -49,6 +49,18 @@ var formatLocation = function(loc) {
   return content;
 };
 
+var formatLink = function(link) {
+  var source = LOCATIONS[link.source];
+  var dest = LOCATIONS[link.destination];
+  var result = dest.name;
+  result += "では<br />";
+  result += source.name;
+  result += "の<br />";
+  result += link.product_name;
+  result += "を使っています";
+  return result;
+};
+
 var showDialog = function(content) {
   var dialog = document.getElementById('location_desc_dialog');
   var container = document.getElementById('location_desc_content');
