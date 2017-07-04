@@ -21,31 +21,21 @@ html, body {
   margin: 0;
   padding: 0;
 }
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-}
 
 #location_desc_dialog {
   max-width: 400px;
+  max-height: 75%;
 }
-
 
 #location_desc_dialog img{
   float: right;
 }
 
-#location_desc_dialog div {
-  margin-bottom: 15px;
+#location_desc_content div {
+}
+
+paper-dialog-scrollable {
+  margin-top: 0;
 }
   </style>
 
@@ -60,17 +50,10 @@ html, body {
 
 <script type='text/javascript'>//<![CDATA[
 window.onload = function() {
-  locationInit();
-
-  var location_list = document.getElementById("location");
-  Object.entries(LOCATIONS).forEach(function(location) {
-    var opt = document.createElement("option");
-    opt.setAttribute("id", location[0]); // label
-    opt.setAttribute("value" , location[0]);
-    opt.innerText = location[1].name;
-    location_list.appendChild(opt);
-  });
 };
+
+var map;
+var directionsManager;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -79,39 +62,15 @@ function initMap() {
   });
   directionsManager = new DirectionsManager(map);
 
-  var onChangeHandler = function() {
-    var location_label =  document.getElementById('location').value;
-    directionsManager.showInOut(LOCATIONS[location_label]);
-  };
-  document.getElementById('location').addEventListener('change', onChangeHandler);
-
-  // Listen on Firebase Database.
-  var pingRef =  firebase.database().ref('/ping');
-  pingRef.on('value', function(snapshot) {
-    var val = snapshot.val();
-    console.log("pinged:");
-    console.log(val);
-    if (val && val.label) {
-      var option = document.getElementById(val.label);
-      if (option) {
-        option.selected = true;
-      }
-      var location = LOCATIONS[val.label];
-      if (location) {
-        directionsManager.showInOut(location);
-      }
-    }
-  });
-
-  Object.entries(LOCATIONS).forEach(function(location) {
+  Object.entries(LOCATIONS).forEach(function(loc) {
     var infowindow = new google.maps.InfoWindow({
-      content: location[1].name
+      content: loc[1].name
     });
     var marker = new google.maps.Marker({
       map: map,
-      position: {lat: location[1].lat, lng: location[1].lng},
-      title: location[1].name,
-      icon: location[1].icon
+      position: {lat: loc[1].lat, lng: loc[1].lng},
+      title: loc[1].name,
+      icon: loc[1].icon
     });
     marker.addListener('mouseover', function() {
       infowindow.open(map, marker);
@@ -120,17 +79,14 @@ function initMap() {
       infowindow.close();
     });
     marker.addListener('click', function() {
-      var dialog = document.getElementById('location_desc_dialog');
-      var content = document.getElementById('location_desc_content');
-      content.innerHTML = formatLocation(location[1]);
-      dialog.open();
+      showDialog(formatLocation(loc[1]));
+      directionsManager.showInOut(loc[1]);
     });
   });
+
+  locationInit();
+  parseDeepLink();
 }
-
-var map;
-var directionsManager;
-
 //]]> 
 
 </script>
@@ -138,10 +94,6 @@ var directionsManager;
 </head>
 
 <body>
-<div id="floating-panel">
-<b>Location: </b>
-<select id="location"> </select>
-</div>
 
 <div id="map"></div>
 
@@ -170,7 +122,7 @@ var directionsManager;
   }
 </script>
 
-<paper-dialog id="location_desc_dialog" with-backdrop>
+<paper-dialog id="location_desc_dialog" horizontal-align="right" vertical-align="top" no-cancel-on-outside-click>
   <paper-dialog-scrollable id="location_desc_content"></paper-dialog-scrollable>
 </paper-dialog>
 
