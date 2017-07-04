@@ -11,19 +11,18 @@ var locationInit = function() {
   });
 };
 
-
-var formatLocation = function(location) {
+var formatLocation = function(loc) {
   var content = "";
   // Title.
   content += "<h2>";
-  content +=  (location.url ? "<a href='" + location.url + "'>" : "");
-  content +=  location.name;
-  content +=  (location.url ? "</a>" : "");
+  content +=  (loc.url ? "<a href='" + loc.url + "'>" : "");
+  content +=  loc.name;
+  content +=  (loc.url ? "</a>" : "");
   content +=  "</h2>";
   // Incoming.
-  if (location.incoming) {
+  if (loc.incoming) {
     content +=  "<div>";
-    location.incoming.forEach(function(link) {
+    loc.incoming.forEach(function(link) {
       content +=  "ここでは";
       content +=  LOCATIONS[link.source].name;
       content +=  "の";
@@ -33,9 +32,9 @@ var formatLocation = function(location) {
     content +=  "</div>";
   }
   // Outgoing.
-  if (location.outgoing) {
+  if (loc.outgoing) {
     content +=  "<div>";
-    location.outgoing.forEach(function(link) {
+    loc.outgoing.forEach(function(link) {
       content +=  LOCATIONS[link.destination].name;
       content +=  "がここの";
       content +=  link.product_name;
@@ -45,7 +44,49 @@ var formatLocation = function(location) {
   }
   // Description.
   content +=  "<div>";
-  content +=  location.desc;
+  content +=  loc.desc;
   content +=  "</div>";
   return content;
-}
+};
+
+var showDialog = function(content) {
+  var dialog = document.getElementById('location_desc_dialog');
+  var container = document.getElementById('location_desc_content');
+  dialog.close();
+  container.innerHTML = content;
+  dialog.open();
+};
+
+var parseDeepLink = function() {
+  if (location.hash.length > 0) {
+    var hash = location.hash.substring(1);
+    var loc = LOCATIONS[hash];
+    if (loc) {
+      showDialog(formatLocation(loc));
+      directionsManager.showInOut(loc);
+      map.setCenter({"lat":loc.lat, "lng":loc.lng});
+    } else if (hash == "DASHBOARD") {
+      console.log("Dashboard mode.");
+      // Listen on Firebase Database.
+      listenPing(function(loc) {
+        showDialog(formatLocation(loc));
+        directionsManager.showInOut(loc);
+      });
+    }
+  }
+};
+
+var listenPing = function(callback) {
+  var pingRef =  firebase.database().ref('/ping');
+  pingRef.on('value', function(snapshot) {
+    var val = snapshot.val();
+    console.log("pinged:");
+    console.log(val);
+    if (val && val.label) {
+      var loc = LOCATIONS[val.label];
+      if (loc) {
+        callback(loc);
+      }
+    }
+  });
+};

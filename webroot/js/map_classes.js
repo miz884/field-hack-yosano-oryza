@@ -121,8 +121,8 @@ DirectionsManager.prototype.showRoute = function(origin, destination, icon, line
           path: route.overview_path,
           geodesic: true,
           strokeColor: (line_color ? line_color : '#FF0000'),
-          strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeOpacity: 0.5,
+          strokeWeight: 10
         });
         path.setMap(me.map);
         me.routes.push(path);
@@ -144,31 +144,31 @@ DirectionsManager.prototype.clear = function() {
   this.animator.start();
 };
 
-DirectionsManager.prototype.showIncoming = function(location) {
-  if (! location.incoming) {
+DirectionsManager.prototype.showIncoming = function(loc) {
+  if (! loc.incoming) {
     return;
   }
   var me = this;
-  location.incoming.forEach(function(link) {
+  loc.incoming.forEach(function(link) {
     var source_location = LOCATIONS[link.source];
     me.showRoute(
       {lat: source_location.lat, lng: source_location.lng},
-      {lat: location.lat, lng: location.lng},
+      {lat: loc.lat, lng: loc.lng},
       PRODUCTS[link.product].icon,
       "#00FF00"
     );
   });
 };
 
-DirectionsManager.prototype.showOutgoing = function(location) {
-  if (! location.outgoing) {
+DirectionsManager.prototype.showOutgoing = function(loc) {
+  if (! loc.outgoing) {
     return;
   }
   var me = this;
-  location.outgoing.forEach(function(link) {
+  loc.outgoing.forEach(function(link) {
     var dest_location = LOCATIONS[link.destination];
     me.showRoute(
-      {lat: location.lat, lng: location.lng},
+      {lat: loc.lat, lng: loc.lng},
       {lat: dest_location.lat, lng: dest_location.lng},
       PRODUCTS[link.product].icon,
       "#FFFF00"
@@ -176,8 +176,8 @@ DirectionsManager.prototype.showOutgoing = function(location) {
   });
 };
 
-DirectionsManager.prototype.showInOut = function(location) {
-  var loc = (LOCATIONS[location] ? LOCATIONS[location] : location);
+DirectionsManager.prototype.showInOut = function(loc_label) {
+  var loc = (LOCATIONS[loc_label] ? LOCATIONS[loc_label] : loc_label);
   this.clear();
   this.showIncoming(loc);
   this.showOutgoing(loc);

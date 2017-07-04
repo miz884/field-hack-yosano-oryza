@@ -25,16 +25,16 @@
         "destination" : "http://yosamusume.shop-pro.jp/#akatsukiyami",
         "type" : 301
       },
-      {"source": "/ping/yosamusume", "destination": "https://maker.ifttt.com/trigger/yosamusume/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/yosamusume_rice_paddy", "destination": "https://maker.ifttt.com/trigger/yosamusume_rice_paddy/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/farmers_store", "destination": "https://maker.ifttt.com/trigger/farmers_store/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/rice_mill", "destination": "https://maker.ifttt.com/trigger/rice_mill/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/water_source", "destination": "https://maker.ifttt.com/trigger/water_source/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/mamekko_plant", "destination": "https://maker.ifttt.com/trigger/mamekko_plant/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/food_processing_plant", "destination": "https://maker.ifttt.com/trigger/food_processing_plant/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/apple_farm", "destination": "https://maker.ifttt.com/trigger/apple_farm/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/kyo_tofu", "destination": "https://maker.ifttt.com/trigger/kyo_tofu/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301},
-      {"source": "/ping/takenaka_can", "destination": "https://maker.ifttt.com/trigger/takenaka_can/with/key/d1fg_DKehtlzbjJ0U71DXa", "type":301}
+{"source": "/ping/yosamusume", "destination": "https://maker.ifttt.com/trigger/yosamusume/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/yosamusume_rice_paddy", "destination": "https://maker.ifttt.com/trigger/yosamusume_rice_paddy/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/farmers_store", "destination": "https://maker.ifttt.com/trigger/farmers_store/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/rice_mill", "destination": "https://maker.ifttt.com/trigger/rice_mill/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/water_source", "destination": "https://maker.ifttt.com/trigger/water_source/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/mamekko_plant", "destination": "https://maker.ifttt.com/trigger/mamekko_plant/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/food_processing_plant", "destination": "https://maker.ifttt.com/trigger/food_processing_plant/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/apple_farm", "destination": "https://maker.ifttt.com/trigger/apple_farm/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/kyo_tofu", "destination": "https://maker.ifttt.com/trigger/kyo_tofu/with/key/b3j-1d35HclrYE8Q067eUY", "type":302},
+{"source": "/ping/takenaka_can", "destination": "https://maker.ifttt.com/trigger/takenaka_can/with/key/b3j-1d35HclrYE8Q067eUY", "type":302}
     ]
   }
 }
