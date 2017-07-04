@@ -12,41 +12,76 @@ var locationInit = function() {
 };
 
 var formatLocation = function(loc) {
-  var content = "";
-  // Title.
-  content += "<h2>";
-  content +=  (loc.url ? "<a href='" + loc.url + "'>" : "");
-  content +=  loc.name;
-  content +=  (loc.url ? "</a>" : "");
-  content +=  "</h2>";
+  function ce(tag, children) { // Create element
+    var e = document.createElement(tag);
+    children.forEach(function(c){
+      e.appendChild(c);
+    });
+    return e;
+  };
+  function t(content) { // Text node.
+    return document.createTextNode(content);
+  };
+  function ac(p, children) { // Append Children
+    children.forEach(function(c){
+      p.appendChild(c);
+    });
+    return p;
+  };
+  function a(text, href, onclick) { // Anchor tag.
+    var a = ce("a", []);
+    a.innerText = text;
+    a.href = (href ? href : "#");
+    if (onclick) {
+      a.onclick = onclick;
+    }
+    return a;
+  };
+  var result = ce("div", [
+    ce("h2", [
+      (loc.url ? a(loc.name, loc.url) : t(loc.name))
+    ])
+  ]);
   // Incoming.
   if (loc.incoming) {
-    content +=  "<div>";
+    var div = ce("div", []);
     loc.incoming.forEach(function(link) {
-      content +=  "ここでは";
-      content +=  LOCATIONS[link.source].name;
-      content +=  "の";
-      content +=  link.product_name;
-      content +=  "を使っています。<br />";
+      ac(div, [
+        t("ここでは"),
+        a(LOCATIONS[link.source].name, "#" + link.source, function() {
+          showDialog(formatLocation(LOCATIONS[link.source]));
+          directionsManager.showInOut(LOCATIONS[link.source]);
+        }),
+        t("の"),
+        t(link.product_name),
+        t("を使っています。"),
+        ce("br", [])
+      ]);
     });
-    content +=  "</div>";
+    result = ac(result, [div]);
   }
   // Outgoing.
   if (loc.outgoing) {
-    content +=  "<div>";
+    var div = ce("div", []);
     loc.outgoing.forEach(function(link) {
-      content +=  LOCATIONS[link.destination].name;
-      content +=  "がここの";
-      content +=  link.product_name;
-      content +=  "を使っています。<br />";
+      ac(div, [
+        a(LOCATIONS[link.destination].name, "#" + link.destination, function() {
+          showDialog(formatLocation(LOCATIONS[link.destination]));
+          directionsManager.showInOut(LOCATIONS[link.destination]);
+        }),
+        t("がここの"),
+        t(link.product_name),
+        t("を使っています。"),
+        ce("br", [])
+      ]);
     });
-    content +=  "</div>";
+    result = ac(result, [div]);
   }
   // Description.
-  content +=  "<div>";
-  content +=  loc.desc;
-  content +=  "</div>";
-  return content;
+  var desc = ce("div", []);
+  desc.innerHTML = loc.desc;
+  result = ac(result, [desc]);
+  return result;
 };
 
 var formatLink = function(link) {
@@ -65,7 +100,8 @@ var showDialog = function(content) {
   var dialog = document.getElementById('location_desc_dialog');
   var container = document.getElementById('location_desc_content');
   dialog.close();
-  container.innerHTML = content;
+  container.innerHTML = "";
+  container.appendChild(content);
   dialog.open();
 };
 
