@@ -175,3 +175,9 @@ var listenPing = function(callback) {
     }
   });
 };
+
+var showMessage = function(message) {
+  var toast = document.getElementById("message");
+  toast.text = message;
+  toast.open();
+};
