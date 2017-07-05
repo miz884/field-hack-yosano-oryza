@@ -1,8 +1,13 @@
-function StepMarker(map, route, num_steps, icon) {
+function StepMarker(map, route, num_steps, icon_url) {
   this.map = map;
   this.steps = [];
   this.curr_index = 0;
-  this.icon = (icon ? icon : "https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png");
+  this.icon = (icon_url ?  { 
+    url: icon_url,
+    scaledSize: new google.maps.Size(StepMarker.ICON_SIZE, StepMarker.ICON_SIZE),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(StepMarker.ICON_SIZE / 2.0, StepMarker.ICON_SIZE / 2.0)
+  } : "https://maps.google.com/mapfiles/kml/paddle/grn-square-lv.png");
   this.marker = new google.maps.Marker({
     icon: this.icon
   });
@@ -43,6 +48,8 @@ function StepMarker(map, route, num_steps, icon) {
     this.steps.push({"lat":lat, "lng":lng});
   }
 };
+
+StepMarker.ICON_SIZE = 50;
 
 StepMarker.prototype.next = function() {
   ++this.curr_index;
