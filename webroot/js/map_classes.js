@@ -152,7 +152,7 @@ DirectionsManager.prototype.showRoute = function(origin, destination, label, ico
           infowindow.close();
         });
       } else {
-        window.alert('Directions request failed due to ' + status);
+        showMessage('Directions request failed due to ' + status);
       }
     }
   }());

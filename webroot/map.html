@@ -8,6 +8,10 @@
   <link rel="import" href="bower_components/paper-button/paper-button.html">
   <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
   <link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+  <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+  <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/iron-icons/maps-icons.html">
+  <link rel="import" href="bower_components/iron-icons/social-icons.html">
 
   <style type="text/css">
 /* Always set the map height explicitly to define the size of the div
@@ -27,8 +31,12 @@ html, body {
   max-height: 75%;
 }
 
-#location_desc_dialog img{
+#location_desc_dialog img {
   float: right;
+}
+
+#location_desc_dialog iron-icon {
+  padding: 0px;
 }
 
 #location_desc_content div {
@@ -131,6 +139,9 @@ function initMap() {
 <paper-dialog id="location_desc_dialog" horizontal-align="right" vertical-align="top" no-cancel-on-outside-click>
   <paper-dialog-scrollable id="location_desc_content"></paper-dialog-scrollable>
 </paper-dialog>
+<paper-toast id="message">
+<iron-icon icon="announcement"</iron-icon>
+</paper-toast>
 
 </body>
 

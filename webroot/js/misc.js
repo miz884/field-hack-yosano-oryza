@@ -23,12 +23,17 @@ var locationInit = function() {
 
 var formatLocation = function(loc) {
   // Create element
-  function ce(tag, children) {
+  function ce(tag, children, attr) {
     var e = document.createElement(tag);
     if (children) {
       children.forEach(function(c){
         e.appendChild(c);
       });
+      if (attr) {
+        Object.entries(attr).forEach(function(v) {
+          e[v[0]] = v[1];
+        });
+      }
     }
     return e;
   };
@@ -68,7 +73,10 @@ var formatLocation = function(loc) {
   ]);
   // Products.
   if (loc.products) {
-    var lines = [ce("b", [t("作っているもの"), br()])];
+    var lines = [
+      ce("iron-icon", [], {"icon":"social:domain"}),
+      ce("b", [t("ここで作っているもの")]),
+      br()];
     loc.products.forEach(function(product) {
       lines.push(
         t("ここでは"),
@@ -81,7 +89,12 @@ var formatLocation = function(loc) {
   }
   // Incoming.
   if (loc.incoming) {
-    var lines = [ce("b", [t("使っているもの"), br()])];
+    var lines = [
+      ce("iron-icon", [], {"icon":"maps:local-shipping"}),
+      ce("iron-icon", [], {"icon":"forward"}),
+      ce("iron-icon", [], {"icon":"social:domain"}),
+      ce("b", [t("ここで使っているもの")]),
+      br()];
     loc.incoming.forEach(function(link) {
       lines.push(
         t("ここでは"),
@@ -99,7 +112,12 @@ var formatLocation = function(loc) {
   }
   // Outgoing.
   if (loc.outgoing) {
-    var lines = [ce("b", [t("ここで作られたものを使っている人達"), br()])];
+    var lines = [
+      ce("iron-icon", [], {"icon":"social:domain"}),
+      ce("iron-icon", [], {"icon":"forward"}),
+      ce("iron-icon", [], {"icon":"face"}),
+      ce("b", [t("ここで作られたものを使っている人達")]),
+      br()];
     loc.outgoing.forEach(function(link) {
       lines.push(
         a(LOCATIONS[link.destination].name, "#" + link.destination, function() {
@@ -174,4 +192,10 @@ var listenPing = function(callback) {
       }
     }
   });
+};
+
+var showMessage = function(message) {
+  var toast = document.getElementById("message");
+  toast.text = message;
+  toast.open();
 };
