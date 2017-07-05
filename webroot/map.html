@@ -71,7 +71,12 @@ function initMap() {
       map: map,
       position: {lat: loc[1].lat, lng: loc[1].lng},
       title: loc[1].name,
-      icon: loc[1].icon
+      icon: {
+        url: loc[1].icon,
+        scaledSize: new google.maps.Size(StepMarker.ICON_SIZE, StepMarker.ICON_SIZE),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(StepMarker.ICON_SIZE / 2.0, StepMarker.ICON_SIZE / 2.0)
+      }
     });
     marker.addListener('mouseover', function() {
       infowindow.open(map, marker);

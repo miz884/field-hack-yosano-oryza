@@ -1,34 +1,50 @@
 var locationInit = function() {
+  var products = {};
   PRODUCT_LINKS.forEach(function(link) {
-    if (! LOCATIONS[link.source].outgoing) {
-      LOCATIONS[link.source].outgoing = [];
+    if (! products[link.source]) {
+      products[link.source] = {};
     }
-    LOCATIONS[link.source].outgoing.push(link);
-    if (! LOCATIONS[link.destination].incoming) {
-      LOCATIONS[link.destination].incoming = [];
+    products[link.source][link.product] = true;
+    if (link.source && link.destination) {
+      if (! LOCATIONS[link.source].outgoing) {
+        LOCATIONS[link.source].outgoing = [];
+      }
+      LOCATIONS[link.source].outgoing.push(link);
+      if (! LOCATIONS[link.destination].incoming) {
+        LOCATIONS[link.destination].incoming = [];
+      }
+      LOCATIONS[link.destination].incoming.push(link);
     }
-    LOCATIONS[link.destination].incoming.push(link);
+  });
+  Object.keys(products).forEach(function(source) {
+    LOCATIONS[source].products = Object.keys(products[source]);
   });
 };
 
 var formatLocation = function(loc) {
-  function ce(tag, children) { // Create element
+  // Create element
+  function ce(tag, children) {
     var e = document.createElement(tag);
-    children.forEach(function(c){
-      e.appendChild(c);
-    });
+    if (children) {
+      children.forEach(function(c){
+        e.appendChild(c);
+      });
+    }
     return e;
   };
-  function t(content) { // Text node.
+  // Text node.
+  function t(content) {
     return document.createTextNode(content);
   };
-  function ac(p, children) { // Append Children
+  // Append Children.
+  function ac(p, children) {
     children.forEach(function(c){
       p.appendChild(c);
     });
     return p;
   };
-  function a(text, href, onclick) { // Anchor tag.
+  // Anchor tag.
+  function a(text, href, onclick) {
     var a = ce("a", []);
     a.innerText = text;
     a.href = (href ? href : "#");
@@ -37,16 +53,37 @@ var formatLocation = function(loc) {
     }
     return a;
   };
-  var result = ce("div", [
+  // div.
+  function div(children) {
+    return ce("div", children);
+  }
+  // br
+  function br() {
+    return ce("br");
+  }
+  var result = div([
     ce("h2", [
       (loc.url ? a(loc.name, loc.url) : t(loc.name))
     ])
   ]);
+  // Products.
+  if (loc.products) {
+    var lines = [ce("b", [t("作っているもの"), br()])];
+    loc.products.forEach(function(product) {
+      lines.push(
+        t("ここでは"),
+        t(PRODUCTS[product].name),
+        t("を作っています。"),
+        br()
+      );
+    });
+    ac(result, [div(lines)]);
+  }
   // Incoming.
   if (loc.incoming) {
-    var div = ce("div", []);
+    var lines = [ce("b", [t("使っているもの"), br()])];
     loc.incoming.forEach(function(link) {
-      ac(div, [
+      lines.push(
         t("ここでは"),
         a(LOCATIONS[link.source].name, "#" + link.source, function() {
           showDialog(formatLocation(LOCATIONS[link.source]));
@@ -55,16 +92,16 @@ var formatLocation = function(loc) {
         t("の"),
         t(link.product_name),
         t("を使っています。"),
-        ce("br", [])
-      ]);
+        br()
+      );
     });
-    result = ac(result, [div]);
+    ac(result, [div(lines)]);
   }
   // Outgoing.
   if (loc.outgoing) {
-    var div = ce("div", []);
+    var lines = [ce("b", [t("ここで作られたものを使っている人達"), br()])];
     loc.outgoing.forEach(function(link) {
-      ac(div, [
+      lines.push(
         a(LOCATIONS[link.destination].name, "#" + link.destination, function() {
           showDialog(formatLocation(LOCATIONS[link.destination]));
           directionsManager.showInOut(LOCATIONS[link.destination]);
@@ -72,15 +109,15 @@ var formatLocation = function(loc) {
         t("がここの"),
         t(link.product_name),
         t("を使っています。"),
-        ce("br", [])
-      ]);
+        br()
+      );
     });
-    result = ac(result, [div]);
+    ac(result, [div(lines)]);
   }
   // Description.
-  var desc = ce("div", []);
+  var desc = div();
   desc.innerHTML = loc.desc;
-  result = ac(result, [desc]);
+  ac(result, [desc]);
   return result;
 };
 
@@ -90,7 +127,7 @@ var formatLink = function(link) {
   var result = dest.name;
   result += "では<br />";
   result += source.name;
-  result += "の<br />";
+  result += "の";
   result += link.product_name;
   result += "を使っています";
   return result;
