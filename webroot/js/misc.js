@@ -1,3 +1,42 @@
+var map;
+var directionsManager;
+
+var mapInit = function() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: {lat:35.5086529, lng:135.0703902},
+    disableDefaultUI: true
+  });
+  directionsManager = new DirectionsManager(map);
+
+  Object.entries(LOCATIONS).forEach(function(loc) {
+    var infowindow = new google.maps.InfoWindow({
+      content: loc[1].name
+    });
+    var marker = new google.maps.Marker({
+      map: map,
+      position: loc[1].latLng,
+      title: loc[1].name,
+      icon: {
+        url: loc[1].icon,
+        scaledSize: new google.maps.Size(StepMarker.ICON_SIZE, StepMarker.ICON_SIZE),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(StepMarker.ICON_SIZE / 2.0, StepMarker.ICON_SIZE / 2.0)
+      }
+    });
+    marker.addListener('mouseover', function() {
+      infowindow.open(map, marker);
+    });
+    marker.addListener('mouseout', function() {
+      infowindow.close();
+    });
+    marker.addListener('click', function() {
+      showDialog(formatLocation(loc[1]));
+      directionsManager.showInOut(loc[1]);
+    });
+  });
+}
+
 var locationInit = function() {
   var products = {};
   PRODUCT_LINKS.forEach(function(link) {
@@ -18,6 +57,9 @@ var locationInit = function() {
   });
   Object.keys(products).forEach(function(source) {
     LOCATIONS[source].products = Object.keys(products[source]);
+  });
+  Object.entries(LOCATIONS).forEach(function(loc) {
+    loc[1].latLng = {lat: loc[1].lat, lng: loc[1].lng};
   });
 };
 
@@ -99,7 +141,7 @@ var formatLocation = function(loc) {
       lines.push(
         t("ここでは"),
         a(LOCATIONS[link.source].name, "#" + link.source, function() {
-          showDialog(formatLocation(LOCATIONS[link.source]));
+          showLocationDialog(formatLocation(LOCATIONS[link.source]));
           directionsManager.showInOut(LOCATIONS[link.source]);
         }),
         t("の"),
@@ -121,7 +163,7 @@ var formatLocation = function(loc) {
     loc.outgoing.forEach(function(link) {
       lines.push(
         a(LOCATIONS[link.destination].name, "#" + link.destination, function() {
-          showDialog(formatLocation(LOCATIONS[link.destination]));
+          showLocationDialog(formatLocation(LOCATIONS[link.destination]));
           directionsManager.showInOut(LOCATIONS[link.destination]);
         }),
         t("がここの"),
@@ -151,7 +193,21 @@ var formatLink = function(link) {
   return result;
 };
 
-var showDialog = function(content) {
+var formatPing = function(loc) {
+  var result = "";
+  result += "<iron-icon icon='maps:restaurant'></iron-icon>";
+  result += "<b>食べたよ！飲んだよ！</b>";
+  result += "<iron-icon icon='maps:local-bar'></iron-icon>";
+  result += "<br />";
+  result += loc.name;
+  result += "の";
+  result += PRODUCTS[loc.products[0]].name;
+  result += "を楽しんでいる人がいますよ！<br />";
+  result += new Date();
+  return result;
+};
+
+var showLocationDialog = function(content) {
   var dialog = document.getElementById('location_desc_dialog');
   var container = document.getElementById('location_desc_content');
   dialog.close();
@@ -160,22 +216,37 @@ var showDialog = function(content) {
   dialog.open();
 };
 
+var DASHBOARD_MODE = false;
+
 var parseDeepLink = function() {
   if (location.hash.length > 0) {
     var hash = location.hash.substring(1);
     var loc = LOCATIONS[hash];
     if (loc) {
-      showDialog(formatLocation(loc));
+      showLocationDialog(formatLocation(loc));
       directionsManager.showInOut(loc);
-      map.setCenter({"lat":loc.lat, "lng":loc.lng});
+      map.setCenter(loc.latLng);
     } else if (hash == "DASHBOARD") {
       console.log("Dashboard mode.");
+      DASHBOARD_MODE = true;
       // Listen on Firebase Database.
-      listenPing(function(loc) {
-        showDialog(formatLocation(loc));
-        directionsManager.showInOut(loc);
-      });
+      listenPing(pingHandler);
     }
+  }
+};
+
+var pingHandler = function(loc) {
+  showLocationDialog(formatLocation(loc));
+  directionsManager.showInOut(loc);
+  map.setCenter(loc.latLng);
+  if (DASHBOARD_MODE) {
+    var dialog = document.getElementById('dashboard_dialog');
+    var container = document.getElementById('dashboard_content');
+    dialog.close();
+    var card = document.createElement("paper-card");
+    card.innerHTML = formatPing(loc);
+    container.insertBefore(card, container.childNodes[0]);
+    dialog.open();
   }
 };
 

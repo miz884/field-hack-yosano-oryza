@@ -6,6 +6,7 @@
   <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
 
   <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-card/paper-card.html">
   <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
   <link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
   <link rel="import" href="bower_components/paper-toast/paper-toast.html">
@@ -31,20 +32,29 @@ html, body {
   max-height: 75%;
 }
 
-#location_desc_dialog img {
+paper-dialog img {
   float: right;
 }
 
-#location_desc_dialog iron-icon {
+paper-dialog iron-icon {
   padding: 0px;
 }
 
-#location_desc_content div {
+paper-dialog-scrollable  div {
   margin-bottom: 15px;
+}
+
+#dashboard_dialog {
+  max-width: 260px;
+  height: 75%;
 }
 
 paper-dialog-scrollable {
   margin-top: 0;
+}
+
+paper-dialog-scrollable paper-card {
+  margin-bottom: 10px;
 }
   </style>
 
@@ -61,44 +71,9 @@ paper-dialog-scrollable {
 window.onload = function() {
 };
 
-var map;
-var directionsManager;
-
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: {lat:35.5086529, lng:135.0703902}
-  });
-  directionsManager = new DirectionsManager(map);
-
-  Object.entries(LOCATIONS).forEach(function(loc) {
-    var infowindow = new google.maps.InfoWindow({
-      content: loc[1].name
-    });
-    var marker = new google.maps.Marker({
-      map: map,
-      position: {lat: loc[1].lat, lng: loc[1].lng},
-      title: loc[1].name,
-      icon: {
-        url: loc[1].icon,
-        scaledSize: new google.maps.Size(StepMarker.ICON_SIZE, StepMarker.ICON_SIZE),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(StepMarker.ICON_SIZE / 2.0, StepMarker.ICON_SIZE / 2.0)
-      }
-    });
-    marker.addListener('mouseover', function() {
-      infowindow.open(map, marker);
-    });
-    marker.addListener('mouseout', function() {
-      infowindow.close();
-    });
-    marker.addListener('click', function() {
-      showDialog(formatLocation(loc[1]));
-      directionsManager.showInOut(loc[1]);
-    });
-  });
-
+function init() {
   locationInit();
+  mapInit();
   parseDeepLink();
 }
 //]]> 
@@ -124,7 +99,7 @@ function initMap() {
   firebase.initializeApp(config);
 </script>
 <!-- Replace the value of the key parameter with your own API key. -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrUmPwxmxyWknL8LU51wEZvVUKh9x2SbE&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrUmPwxmxyWknL8LU51wEZvVUKh9x2SbE&callback=init"></script>
   
 <script>
   // tell the embed parent frame the height of the content
@@ -136,11 +111,16 @@ function initMap() {
   }
 </script>
 
+<paper-dialog id="dashboard_dialog" horizontal-align="left" vertical-align="top" no-cancel-on-outside-click>
+  <paper-dialog-scrollable id="dashboard_content"></paper-dialog-scrollable>
+</paper-dialog>
+
 <paper-dialog id="location_desc_dialog" horizontal-align="right" vertical-align="top" no-cancel-on-outside-click>
   <paper-dialog-scrollable id="location_desc_content"></paper-dialog-scrollable>
 </paper-dialog>
+
 <paper-toast id="message">
-<iron-icon icon="announcement"</iron-icon>
+  <iron-icon icon="announcement"</iron-icon>
 </paper-toast>
 
 </body>
