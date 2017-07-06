@@ -91,14 +91,14 @@ var formatLocation = function(loc) {
     return p;
   };
   // Anchor tag.
-  function a(text, href, onclick) {
-    var a = ce("a", []);
-    a.innerText = text;
-    a.href = (href ? href : "#");
+  function a(children, href, onclick) {
+    var anchor = ce("a", []);
+    ac(anchor, children);
+    anchor.href = (href ? href : "#");
     if (onclick) {
-      a.onclick = onclick;
+      anchor.onclick = onclick;
     }
-    return a;
+    return anchor;
   };
   // div.
   function div(children) {
@@ -108,10 +108,22 @@ var formatLocation = function(loc) {
   function br() {
     return ce("br");
   }
+  // Name.
   var result = div([
     ce("h2", [
-      (loc.url ? a(loc.name, loc.url) : t(loc.name))
+      (loc.url ? a([t(loc.name)], loc.url) : t(loc.name))
     ])
+  ]);
+  // Fav.
+  ac(result, [
+    a([
+      ce("iron-icon", [], {"icon":"favorite"}),
+      t("また食べたい！また飲みたい！"),
+    ], "#", function() {
+      var dialog = document.getElementById("fav_dialog");
+      dialog.open();
+    }),
+    br()
   ]);
   // Products.
   if (loc.products) {
@@ -140,7 +152,7 @@ var formatLocation = function(loc) {
     loc.incoming.forEach(function(link) {
       lines.push(
         t("ここでは"),
-        a(LOCATIONS[link.source].name, "#" + link.source, function() {
+        a([t(LOCATIONS[link.source].name)], "#" + link.source, function() {
           showLocationDialog(formatLocation(LOCATIONS[link.source]));
           directionsManager.showInOut(LOCATIONS[link.source]);
         }),
@@ -162,7 +174,7 @@ var formatLocation = function(loc) {
       br()];
     loc.outgoing.forEach(function(link) {
       lines.push(
-        a(LOCATIONS[link.destination].name, "#" + link.destination, function() {
+        a([t(LOCATIONS[link.destination].name)], "#" + link.destination, function() {
           showLocationDialog(formatLocation(LOCATIONS[link.destination]));
           directionsManager.showInOut(LOCATIONS[link.destination]);
         }),
