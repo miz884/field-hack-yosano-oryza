@@ -230,6 +230,12 @@ var showLocationDialog = function(content) {
 
 var DASHBOARD_MODE = false;
 
+var ping = function(url) {
+  var s = document.createElement("script");
+  s.src = url;
+  document.head.insertBefore(s, document.head.childNodes[0]);
+};
+
 var parseDeepLink = function() {
   if (location.hash.length > 0) {
     var hash = location.hash.substring(1);
@@ -238,6 +244,7 @@ var parseDeepLink = function() {
       showLocationDialog(formatLocation(loc));
       directionsManager.showInOut(loc);
       map.setCenter(loc.latLng);
+      ping("/ping/" + hash);
     } else if (hash == "DASHBOARD") {
       console.log("Dashboard mode.");
       DASHBOARD_MODE = true;
