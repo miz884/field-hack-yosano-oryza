@@ -31,7 +31,7 @@ var mapInit = function() {
       infowindow.close();
     });
     marker.addListener('click', function() {
-      showDialog(formatLocation(loc[1]));
+      showLocationDialog(formatLocation(loc[1]));
       directionsManager.showInOut(loc[1]);
     });
   });
