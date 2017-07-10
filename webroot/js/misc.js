@@ -9,16 +9,19 @@ var mapInit = function() {
   });
   directionsManager = new DirectionsManager(map);
 
-  Object.entries(LOCATIONS).forEach(function(loc) {
+  console.log(map);
+
+  Object.keys(LOCATIONS).forEach(function(key) {
+    var loc = LOCATIONS[key];
     var infowindow = new google.maps.InfoWindow({
-      content: loc[1].name
+      content: loc.name
     });
     var marker = new google.maps.Marker({
       map: map,
-      position: loc[1].latLng,
-      title: loc[1].name,
+      position: loc.latLng,
+      title: loc.name,
       icon: {
-        url: loc[1].icon,
+        url: loc.icon,
         scaledSize: new google.maps.Size(StepMarker.ICON_SIZE, StepMarker.ICON_SIZE),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(StepMarker.ICON_SIZE / 2.0, StepMarker.ICON_SIZE / 2.0)
@@ -31,8 +34,8 @@ var mapInit = function() {
       infowindow.close();
     });
     marker.addListener('click', function() {
-      showLocationDialog(formatLocation(loc[1]));
-      directionsManager.showInOut(loc[1]);
+      showLocationDialog(formatLocation(loc));
+      directionsManager.showInOut(loc);
     });
   });
 }
@@ -58,8 +61,9 @@ var locationInit = function() {
   Object.keys(products).forEach(function(source) {
     LOCATIONS[source].products = Object.keys(products[source]);
   });
-  Object.entries(LOCATIONS).forEach(function(loc) {
-    loc[1].latLng = {lat: loc[1].lat, lng: loc[1].lng};
+  Object.keys(LOCATIONS).forEach(function(key) {
+    var loc = LOCATIONS[key];
+    loc.latLng = {lat: loc.lat, lng: loc.lng};
   });
 };
 
@@ -72,8 +76,8 @@ var formatLocation = function(loc) {
         e.appendChild(c);
       });
       if (attr) {
-        Object.entries(attr).forEach(function(v) {
-          e[v[0]] = v[1];
+        Object.keys(attr).forEach(function(key) {
+          e[key] = attr[key];
         });
       }
     }
