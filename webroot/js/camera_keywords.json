@@ -11,4 +11,7 @@ var CAMERA_KEYWORD_MAP = {
 "leaf": "yosamusume_rice_paddy",
 "manufacturing": "food_processing_plant",
 "machine tool": "food_processing_plant",
+"product": "yosamusume",
+"drink": "yosamusume",
+"FIELD": "yosamusume"
 };

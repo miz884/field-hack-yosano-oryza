@@ -114,6 +114,17 @@ var formatLocation = function(loc) {
       (loc.url ? a([t(loc.name)], loc.url) : t(loc.name))
     ])
   ]);
+  // Close
+  ac(result, [
+    a([
+      ce("iron-icon", [], {"icon":"close"}),
+      t("close"),
+    ], "#", function() {
+      var dialog = document.getElementById("location_desc_dialog");
+      dialog.close();
+    }),
+    br()
+  ]);
   // Fav.
   ac(result, [
     a([
