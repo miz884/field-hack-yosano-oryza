@@ -7,15 +7,15 @@
 #video {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
-  width:320px;
-  height:240px;
+  width:480px;
+  height:360px;
 }
 
 #photo {
   border: 1px solid black;
-  box-shadow: 2px 2px 3px black;
-  width:320px;
-  height:240px;
+  // box-shadow: 2px 2px 3px black;
+  width:480px;
+  height:360px;
 }
 
 #canvas {
@@ -23,13 +23,11 @@
 }
 
 .camera {
-  width: 340px;
-  display:inline-block;
+  width: 64px;
 }
 
 .output {
-  width: 340px;
-  display:inline-block;
+  width: 64px;
 }
 
 #startbutton {
@@ -239,12 +237,13 @@ $(window).on('load', function() {
 </head>
 
 <body>
-    <div class="camera">
+  <div class="camera">
     <video id="video">Video stream not available.</video>
     <div id="startbutton">Click to take photo</div> 
   </div>
   <canvas id="canvas">
   </canvas>
+
   <div class="output">
     <img id="photo" alt="The screen capture will appear in this box."> 
   </div>
